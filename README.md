@@ -5,7 +5,7 @@
 + DictionaryTreeDialog: Simple dialog in "guidata" manner.
 
 ## Example
-<pre><code>
+'''python
 d = {'First name': 'Maximus',
      'Last name': 'Mustermann',
      'Nickname': 'Max',
@@ -30,16 +30,16 @@ print(d)
 
 tree = DictionaryTreeDialog(d)
 tree.edit()
-</code></pre>
+'''
 
 This will pop up:
 
 ![Dialog](data/screenshot1.png "DictionaryTreeDialog Window")
 
 The edited dictionary is retrieved by:
-<pre><code>
+'''python
 edited_dict = tree.to_dict()
-</code></pre>
+'''
 
 Comment: 2013.12.10, is in development status, some stuff wont work.
 
