@@ -31,7 +31,9 @@ print(d)
 tree = DictionaryTreeDialog(d)
 tree.edit()
 </code></pre>
+
 This will pop up:
+
 ![Dialog](data/screenshot1.png "DictionaryTreeDialog Window")
 
 The edited dictionary is retrieved by:
