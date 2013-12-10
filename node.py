@@ -75,14 +75,14 @@ class Node(object):
 
     def to_dict(self, d={}):
         for child in self._children:
-            child._iter_dict(d)
+            child._recurse_dict(d)
         return d
 
-    def _iter_dict(self, d):
+    def _recurse_dict(self, d):
         if self._children:
             d[self.name] = {}
             for child in self._children:
-                child._iter_dict(d[self.name])
+                child._recurse_dict(d[self.name])
         else:
             d[self.name] = self.value
 

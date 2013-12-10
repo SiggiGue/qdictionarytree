@@ -6,7 +6,7 @@ from node import Node
 
 
 class DictionaryTreeModel(QtCore.QAbstractItemModel):
-    """Data model providing a tree view of an arbitrary dictionary"""
+    """Data model providing a tree of an arbitrary dictionary"""
 
     def __init__(self, root, parent=None):
         super(DictionaryTreeModel, self).__init__(parent)
@@ -146,16 +146,11 @@ class DictionaryTreeWidget(QtGui.QTreeView):
     def __init__(self, d):
         super(DictionaryTreeWidget, self).__init__()
         self.load_dictionary(d)
-        #hbox = QtGui.QHBoxLayout()
-        #hbox.addWidget(self._view)
-        #        self.setLayout(hbox)
-
     def load_dictionary(self,d):
         """load a dictionary into my tree applicatoin"""
         self._d = d
         self._nodes = node_structure_from_dict(d)
         self._model = DictionaryTreeModel(self._nodes)
-        #self._view = QtGui.QTreeView()
         self.setModel(self._model)
 
     def to_dict(self):
@@ -164,23 +159,33 @@ class DictionaryTreeWidget(QtGui.QTreeView):
 
 
 class DictionaryTreeDialog(QtGui.QDialog):
-    """TODO"""
+    """guidata motivated dialog for editin dictionaries
+
+    """
+
     def __init__(self, d):
         super(DictionaryTreeDialog, self).__init__()
-        self.treeWidget = DictionaryTreeWidget(d)
+        treeWidget = DictionaryTreeWidget(d)
+        for c in range(treeWidget._model.columnCount(None)):
+            treeWidget.resizeColumnToContents(c)
+        self.treeWidget = treeWidget
 
-        buttonOk = QtGui.QPushButton('Ok', self)
-        buttonCancel = QtGui.QPushButton('Cancel', self)
+        self.buttonOk = QtGui.QPushButton('Ok', self)
+        self.buttonCancel = QtGui.QPushButton('Cancel', self)
 
-        vbox = QtGui.QVBoxLayout(self)
+        vbox = QtGui.QVBoxLayout()
         vbox.addWidget(self.treeWidget)
 
-        bhbox = QtGui.QHBoxLayout(self)
-        bhbox.addWidget(buttonOk)
-        bhbox.addWidget(buttonCancel)
+        bhbox = QtGui.QHBoxLayout()
+        bhbox.addStretch()
+        bhbox.addWidget(self.buttonOk)
+        bhbox.addWidget(self.buttonCancel)
 
         vbox.addLayout(bhbox)
         self.setLayout(vbox)
+
+        self.connect(self.buttonOk, QtCore.SIGNAL('clicked()'), self.accept)
+        self.connect(self.buttonCancel, QtCore.SIGNAL('clicked()'), self.closeCancel)
 
     def edit(self):
         return self.exec_()
@@ -188,8 +193,17 @@ class DictionaryTreeDialog(QtGui.QDialog):
     def to_dict(self):
         return self.treeWidget.to_dict()
 
+    def closeCancel(self):
+        d = self.treeWidget._d
+        self.treeWidget.load_dictionary(d)
+        self.reject()
+
+    def closeEvent(self, event):
+        self.closeCancel()
+
 
 if __name__=='__main__':
+
     try:
         app = QtGui.QApplication(sys.argv)
     except:
@@ -209,10 +223,13 @@ if __name__=='__main__':
      }
 
     tree = DictionaryTreeDialog(d)
-    tree.edit()
 
-    print(tree.to_dict())
+    if tree.edit():
+        print('Accepted:')
+    else:
+        print('Cancelled')
+
     edited_dict = tree.to_dict()
-    print('my object is still of type: {}'.format(edited_dict['An Object']))
-
-    #sys.exit(app.exec_())
+    print('\nEdited dict: {}'.format(edited_dict))
+    print('\nEdited dict is the same as input dict: {}'.format(edited_dict==d))
+    print('\nMy object is still of type: {}'.format(edited_dict['An Object']))
