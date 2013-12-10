@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from PySide import QtGui, QtCore, QtXml
 
 
@@ -65,7 +64,6 @@ class Node(object):
         for child in self._children:
             child._recurse_xml(doc, node)
 
-
     def to_list(self):
         output = []
         if self._children:
@@ -74,7 +72,6 @@ class Node(object):
         else:
             output += [self.name, self.value]
         return output
-
 
     def to_dict(self, d={}):
         for child in self._children:
@@ -96,7 +93,6 @@ class Node(object):
             self._name = value
         return locals()
     name = property(**name())
-
 
     def value():
         def fget(self):

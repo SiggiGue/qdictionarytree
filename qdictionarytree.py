@@ -35,7 +35,6 @@ class DictionaryTreeModel(QtCore.QAbstractItemModel):
         if role == QtCore.Qt.DisplayRole or role == QtCore.Qt.EditRole:
             return node.data(index.column())
 
-
     def setData(self, index, value, role=QtCore.Qt.EditRole):
         """this method gets called when the user changes data"""
         if index.isValid():
@@ -112,10 +111,8 @@ class DictionaryTreeModel(QtCore.QAbstractItemModel):
         self.endRemoveRows()
         return success
 
-
     def to_dict(self):
         return self._rootNode.to_dict()
-
 
 
 def node_structure_from_dict(datadict, parent=None, root_node=None):
@@ -143,6 +140,7 @@ class DictionaryTreeWidget(QtGui.QTreeView):
     d_edited = tree.dict()
 
     d_edited contains the dictionary with the edited data.
+    this has to be refactored...
     """
 
     def __init__(self, d):
@@ -151,7 +149,6 @@ class DictionaryTreeWidget(QtGui.QTreeView):
         #hbox = QtGui.QHBoxLayout()
         #hbox.addWidget(self._view)
         #        self.setLayout(hbox)
-
 
     def load_dictionary(self,d):
         """load a dictionary into my tree applicatoin"""
@@ -167,7 +164,7 @@ class DictionaryTreeWidget(QtGui.QTreeView):
 
 
 class DictionaryTreeDialog(QtGui.QDialog):
-
+    """TODO"""
     def __init__(self, d):
         super(DictionaryTreeDialog, self).__init__()
         self.treeWidget = DictionaryTreeWidget(d)
