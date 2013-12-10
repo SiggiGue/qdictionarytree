@@ -44,4 +44,4 @@ edited_dict = tree.to_dict()
 Comment: 2013.12.10, is in development status, some stuff wont work.
 
 
-Node concept is form this nice tutorial: http://www.youtube.com/view_play_list?p=8B63F2091D787896
+Some of the Node concept is from this nice tutorial: http://www.youtube.com/view_play_list?p=8B63F2091D787896
