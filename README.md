@@ -6,6 +6,9 @@
 
 ## Example
 ```python
+    from qdictionarytree import DictionaryTreeDialog
+
+
     d = {'First name': 'Maximus',
         'Last name': 'Mustermann',
         'Nickname': 'Max',
